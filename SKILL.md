@@ -1,59 +1,48 @@
 ---
 name: webmcp-excellent-core
-description: Production-grade WebMCP skill with strict contracts, confirmation gates, fallback policy, and traceable outputs. Goal: 面向生产环境的WebMCP通用技能执行底座
+description: Execute WebMCP web actions with clear tool contracts, confirmation before write operations, deterministic execution, and concise traceable outputs.
 ---
 
 # webmcp-excellent-core
 
-Goal
-- 面向生产环境的WebMCP通用技能执行底座
+Use when
+- The task requires reliable web actions through structured tools (search/filter/submit/update).
+- Raw click/DOM automation is unstable or hard to reproduce.
 
-Trigger policy
-- Trigger when user requests structured web actions (search/filter/submit/update) with reliability requirements.
-- Do not trigger for pure brainstorming that has no executable step.
+Do not use when
+- The user only wants brainstorming with no executable step.
+- No WebMCP-capable tools are available and manual guidance is sufficient.
 
-Risk policy
-- low: read-only data retrieval
-- medium: state change in non-critical workflows
-- high: payment/account/security sensitive operations
+Workflow
+1) Discover capability
+- Identify available tools/resources/prompts.
+- Mark each tool as read-only or write.
 
-Execution contract
-1) Capability discovery
-- Detect available WebMCP tools/resources/prompts.
-- Build tool map: read-only vs write.
+2) Map intent
+- Convert request to: Input -> Transformation -> Output.
+- Validate required fields against tool schema.
 
-2) Intent mapping
-- Convert request into Input -> Transformation -> Output.
-- Validate against target tool input schema.
+3) Confirm write actions
+- For write operations, ask for explicit confirmation once.
+- For high-risk operations (payment/account/security), confirm twice.
 
-3) Safety gate
-- For any write action: explicit confirmation required.
-- For high-risk flows: require double confirmation (summary + final intent).
+4) Execute minimally
+- Run the smallest deterministic tool chain.
+- Capture references: tool name, key params, result id.
 
-4) Deterministic execution
-- Execute minimal required tool chain.
-- Collect action references (tool name, key params, result id).
+5) Return result
+- Provide final outcome.
+- List executed actions.
+- List pending actions (if any).
 
-5) Result packaging
-- Return concise final outcome.
-- Return what was executed and what was not executed.
-- Return fallback/manual path when partial failure occurs.
+Fallback
+- Missing tool: return shortest manual path.
+- Schema mismatch: return invalid fields + expected shape.
+- Runtime failure: bounded retry, then degrade with clear next step.
 
-Fallback policy
-- Missing tool: provide compatible manual path with minimum steps.
-- Schema mismatch: list invalid fields and expected schema shape.
-- Runtime/tool failure: bounded retry, then degrade with explicit next action.
-
-Output contract
-- Final result
-- Executed actions (tool + key params)
-- Pending actions (if any)
-- References/IDs for traceability
-- Limits/uncertainty (only when needed)
-
-Acceptance gate (must pass)
-- Trigger clarity
-- Tool contract completeness
-- Confirmation points for write actions
-- Deterministic core path
-- Explicit fallback behavior
+Output format
+- Result
+- Executed actions
+- Pending actions
+- Trace references
+- Limits (only if material)
