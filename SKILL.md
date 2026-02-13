@@ -22,7 +22,7 @@ Non-trigger signals
 - "先讨论，不执行"
 - "只要思路"
 
-Workflow (minimal path)
+Workflow
 1) Discover tools
 - Enumerate tools/resources/prompts.
 - Mark read-only vs write.
@@ -31,25 +31,19 @@ Workflow (minimal path)
 - Normalize: Input -> Transformation -> Output.
 - Validate required fields against schema.
 
-3) Gate + execute
+3) Gate and execute
+- Read-only: no confirmation.
 - Write: 1 confirmation.
-- High-risk (payment/account/security): 2 confirmations.
-- Execute smallest deterministic chain and capture trace refs.
+- High-risk write (payment/account/security): 2 confirmations.
+- Execute smallest deterministic chain.
+- Capture trace refs: tool, key params, result id.
 
 4) Return
-- Final result
-- Executed actions
-- Pending actions (if any)
+- Final result.
+- Executed actions.
+- Pending actions (if any).
 
-Confirmation policy
-- Read-only: no confirmation.
-- Write (normal): confirm once with action summary.
-- Write (high-risk): confirm twice:
-  1) summary confirmation
-  2) final execute confirmation
-- If user denies or is ambiguous: stop execution and return safe alternatives.
-
-Fallback (decision order)
+Fallback
 1) Missing tool
 - Return shortest manual path + required inputs.
 
@@ -58,9 +52,9 @@ Fallback (decision order)
 
 3) Runtime failure
 - Retry up to 2 times with bounded timeout.
-- If still failing: downgrade path + exact next action.
+- If still failing: return downgrade path + exact next action.
 
-Output format (strict)
+Output format
 - result: one-line final outcome
 - executed_actions: list of {tool, key_params, result_id}
 - pending_actions: list (empty if none)
