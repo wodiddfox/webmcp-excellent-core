@@ -41,6 +41,14 @@ Workflow (minimal path)
 - Executed actions
 - Pending actions (if any)
 
+Confirmation policy
+- Read-only: no confirmation.
+- Write (normal): confirm once with action summary.
+- Write (high-risk): confirm twice:
+  1) summary confirmation
+  2) final execute confirmation
+- If user denies or is ambiguous: stop execution and return safe alternatives.
+
 Fallback (decision order)
 1) Missing tool
 - Return shortest manual path + required inputs.
