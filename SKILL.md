@@ -32,9 +32,7 @@ Workflow
 - Validate required fields against schema.
 
 3) Gate and execute
-- Read-only: no confirmation.
-- Write: 1 confirmation.
-- High-risk write (payment/account/security): 2 confirmations.
+- Apply confirmation policy in references/confirmation-matrix.md.
 - Execute smallest deterministic chain.
 - Capture trace refs: tool, key params, result id.
 
@@ -44,19 +42,12 @@ Workflow
 - Pending actions (if any).
 
 Fallback
-1) Missing tool
-- Return shortest manual path + required inputs.
-
-2) Schema mismatch
-- Return invalid fields + expected shape + one corrected example.
-
-3) Runtime failure
-- Retry up to 2 times with bounded timeout.
-- If still failing: return downgrade path + exact next action.
+- Apply fallback codes in references/fallback-codes.md.
 
 Output format
 - result: one-line final outcome
 - executed_actions: list of {tool, key_params, result_id}
 - pending_actions: list (empty if none)
 - trace_refs: list of stable references/ids
+- fallback: {code, cause, next_action} (only when fallback occurs)
 - limits: omit unless material
