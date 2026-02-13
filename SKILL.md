@@ -41,10 +41,16 @@ Workflow (minimal path)
 - Executed actions
 - Pending actions (if any)
 
-Fallback
-- Missing tool: shortest manual path.
-- Schema mismatch: invalid fields + expected shape.
-- Runtime failure: bounded retry then clear downgrade path.
+Fallback (decision order)
+1) Missing tool
+- Return shortest manual path + required inputs.
+
+2) Schema mismatch
+- Return invalid fields + expected shape + one corrected example.
+
+3) Runtime failure
+- Retry up to 2 times with bounded timeout.
+- If still failing: downgrade path + exact next action.
 
 Output format (strict)
 - result: one-line final outcome
