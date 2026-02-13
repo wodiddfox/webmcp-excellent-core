@@ -46,9 +46,9 @@ Fallback
 - Schema mismatch: invalid fields + expected shape.
 - Runtime failure: bounded retry then clear downgrade path.
 
-Output format
-- Result
-- Executed actions
-- Pending actions
-- Trace references
-- Limits (only if material)
+Output format (strict)
+- result: one-line final outcome
+- executed_actions: list of {tool, key_params, result_id}
+- pending_actions: list (empty if none)
+- trace_refs: list of stable references/ids
+- limits: omit unless material
