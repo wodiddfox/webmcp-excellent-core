@@ -1,43 +1,52 @@
 ---
 name: webmcp-excellent-core
-description: Execute WebMCP web actions with clear tool contracts, confirmation before write operations, deterministic execution, and concise traceable outputs.
+description: Execute WebMCP actions with strict scope, write-confirmation gates, deterministic flow, and traceable outputs for production web tasks.
 ---
 
 # webmcp-excellent-core
 
 Use when
-- The task requires reliable web actions through structured tools (search/filter/submit/update).
-- Raw click/DOM automation is unstable or hard to reproduce.
+- User asks for executable web tasks through structured tools: search/filter/submit/update.
+- Reliability and reproducibility are required (not best-effort clicking).
 
 Do not use when
-- The user only wants brainstorming with no executable step.
-- No WebMCP-capable tools are available and manual guidance is sufficient.
+- Request is only ideation/brainstorming with no executable action.
+- No WebMCP-capable tool exists and user only needs generic advice.
+
+Trigger signals
+- "帮我在网页里查找并筛选后提交"
+- "按条件下单/创建工单/更新状态"
+- "需要可追溯的执行结果"
+
+Non-trigger signals
+- "先聊聊方案，不要执行"
+- "只给思路，不做操作"
 
 Workflow
 1) Discover capability
-- Identify available tools/resources/prompts.
-- Mark each tool as read-only or write.
+- List available tools/resources/prompts.
+- Mark each tool: read-only or write.
 
 2) Map intent
-- Convert request to: Input -> Transformation -> Output.
+- Normalize to Input -> Transformation -> Output.
 - Validate required fields against tool schema.
 
 3) Confirm write actions
-- For write operations, ask for explicit confirmation once.
-- For high-risk operations (payment/account/security), confirm twice.
+- Write actions: explicit confirmation once.
+- High-risk (payment/account/security): double confirmation.
 
 4) Execute minimally
 - Run the smallest deterministic tool chain.
-- Capture references: tool name, key params, result id.
+- Capture trace refs: tool name, key params, result id.
 
 5) Return result
-- Provide final outcome.
-- List executed actions.
-- List pending actions (if any).
+- Final outcome
+- Executed actions
+- Pending actions (if any)
 
 Fallback
-- Missing tool: return shortest manual path.
-- Schema mismatch: return invalid fields + expected shape.
+- Missing tool: shortest manual path.
+- Schema mismatch: invalid fields + expected shape.
 - Runtime failure: bounded retry, then degrade with clear next step.
 
 Output format
