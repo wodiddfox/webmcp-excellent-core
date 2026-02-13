@@ -22,24 +22,21 @@ Non-trigger signals
 - "先讨论，不执行"
 - "只要思路"
 
-Workflow
-1) Discover capability
+Workflow (minimal path)
+1) Discover tools
 - Enumerate tools/resources/prompts.
 - Mark read-only vs write.
 
-2) Map intent
+2) Validate intent
 - Normalize: Input -> Transformation -> Output.
 - Validate required fields against schema.
 
-3) Confirm write actions
+3) Gate + execute
 - Write: 1 confirmation.
 - High-risk (payment/account/security): 2 confirmations.
+- Execute smallest deterministic chain and capture trace refs.
 
-4) Execute minimally
-- Run smallest deterministic chain.
-- Capture trace refs: tool, key params, result id.
-
-5) Return result
+4) Return
 - Final result
 - Executed actions
 - Pending actions (if any)
